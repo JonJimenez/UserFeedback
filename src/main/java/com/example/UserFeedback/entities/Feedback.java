@@ -15,7 +15,7 @@ public class Feedback {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 	private String comments;
-	private Integer rating;
+	private int rating;
 	private String user;
 	public Integer getId() {
 		return id;

@@ -31,13 +31,17 @@ public class FeedbackController {
         return feedbackService.GetAllFeedback();
     }
 	
-	@PostMapping(value="/feedback", consumes = {"application/json","application/x-www-form-urlencoded"})
-	public Feedback addNewFeedback(@RequestParam(value="user", required=false, defaultValue="") String name, @RequestParam(value="rating", required=false, defaultValue="") Integer rating, @RequestParam(value="comments", required=false, defaultValue="") String comments) {
+	@PostMapping(value="/feedback", consumes = "application/x-www-form-urlencoded")
+	public Feedback addNewFeedback(@RequestParam(value="user", required=false, defaultValue="") String name, @RequestParam(value="rating", required=false, defaultValue="") String rating, @RequestParam(value="comments", required=false, defaultValue="") String comments) {
 		// TODO: Do something useful here.  
 		// Add the Feedback.
+		logger.info(rating);
+		logger.info(name);
+		logger.info(comments);
+		int rate = Integer.parseInt(rating);
 		Feedback fb = new Feedback();
 		fb.setComments(comments);
-		fb.setRating(rating);
+		fb.setRating(rate);
 		fb.setUser(name);
 		if(fb.getComments()!=null&&fb.getRating()!=null&&fb.getUser()!=null) {
 			logger.info("Adding New Feedback");
@@ -45,8 +49,17 @@ public class FeedbackController {
 			return (feedbackService.save(fb));
 		}
 		return fb;
-		
 	}
-	
+	@PostMapping(value="/feedback", consumes = "application/json")
+	public Feedback addNewFeedback2(@RequestBody Feedback fb ) {
+		// TODO: Do something useful here.  
+		// Add the Feedback.
+		if(fb.getComments()!=null&&fb.getRating()!=null&&fb.getUser()!=null) {
+			logger.info("Adding New Feedback");
+			//return "Feedback was added";  // Change this.
+			return (feedbackService.save(fb));
+		}
+		return fb;
+	}
 
 }
